@@ -92,7 +92,13 @@ abstract class AbstractCommand extends Command
         $this->output = $output;
 
         $this->appState->setAreaCode('adminhtml');
-        $this->objectManager->configure($this->configLoader->load('adminhtml'));
+        // Configure object manager to use Adminhtml area.
+        $this->objectManager->configure(
+            $this->objectManager
+                ->get('Magento\Framework\ObjectManager\ConfigLoaderInterface')
+                ->load(Area::AREA_ADMINHTML)
+        );
+        
         $this->registry->register('isSecureArea', true);
     }
 
